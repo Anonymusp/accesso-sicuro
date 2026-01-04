@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Sicurezza carta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="box">
+    <h2>Metodo di pagamento</h2>
+
+    <!-- immagine carta -->
+    <img src="card.png" class="secure-img" alt="Carta di pagamento">
+
+    <form oninput="aggiornaPreview()">
+        <input id="nome" type="text" placeholder="Nome intestatario" required>
+        <input id="numero" type="text" placeholder="Numero carta" maxlength="19" required>
+
+        <div class="row">
+            <input id="scadenza" type="text" placeholder="MM/AA" required>
+            <input id="cvv" type="password" placeholder="CVV" maxlength="3" required>
+        </div>
+
+        <button type="button" onclick="toggle()">👁 Mostra / Nascondi</button>
+    </form>
+
+    <div class="preview">
+        <p><b>Intestatario:</b> <span id="pNome">—</span></p>
+        <p><b>Carta:</b> <span id="pNumero">•••• •••• •••• ••••</span></p>
+        <p><b>Scadenza:</b> <span id="pScadenza">—</span></p>
+        <p><b>CVV:</b> <span id="pCvv">•••</span></p>
+    </div>
+</div>
+
+<script>
+let visibile = false;
+
+function aggiornaPreview() {
+    const nome = nomeEl.value;
+    const numero = numeroEl.value;
+    const scadenza = scadenzaEl.value;
+    const cvv = cvvEl.value;
+
+    pNome.innerText = nome || "—";
+    pScadenza.innerText = scadenza || "—";
+
+    if (visibile) {
+        pNumero.innerText = numero || "—";
+        pCvv.innerText = cvv || "—";
+    } else {
+        pNumero.innerText = numero
+            ? "•••• •••• •••• " + numero.slice(-4)
+            : "•••• •••• •••• ••••";
+        pCvv.innerText = "•••";
+    }
+}
+
+function toggle() {
+    visibile = !visibile;
+    cvvEl.type = visibile ? "text" : "password";
+    aggiornaPreview();
+}
+
+const nomeEl = document.getElementById("nome");
+const numeroEl = document.getElementById("numero");
+const scadenzaEl = document.getElementById("scadenza");
+const cvvEl = document.getElementById("cvv");
+
+const pNome = document.getElementById("pNome");
+const pNumero = document.getElementById("pNumero");
+const pScadenza = document.getElementById("pScadenza");
+const pCvv = document.getElementById("pCvv");
+</script>
+
+</body>
+</html>
